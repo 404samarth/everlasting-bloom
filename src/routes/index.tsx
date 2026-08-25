@@ -47,7 +47,6 @@ function Index() {
   const [started, setStarted] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
   const [relation, setRelation] = useState<string | null>(null);
-  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     try {
@@ -58,7 +57,6 @@ function Index() {
     } catch {
       /* private mode — show intro */
     }
-    setHydrated(true);
   }, []);
 
   useEffect(() => {
