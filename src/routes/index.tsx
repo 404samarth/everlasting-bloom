@@ -45,6 +45,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [started, setStarted] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
   const [relation, setRelation] = useState<string | null>(null);
 
@@ -57,6 +58,7 @@ function Index() {
     } catch {
       /* private mode — show intro */
     }
+    setHydrated(true);
   }, []);
 
   useEffect(() => {

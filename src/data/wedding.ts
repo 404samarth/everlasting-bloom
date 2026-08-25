@@ -10,20 +10,20 @@ export type Lang = "en" | "hi";
 export const wedding = {
   couple: {
     groom: {
-      firstName: "Aarav",
-      fullName: "Aarav Mehta",
-      bio: "An architect who sketches buildings by day and plans surprise chai dates by evening. Calm, patient, and completely in love with Diya's laugh.",
+      firstName: "Anand",
+      fullName: "Anand Mehta",
+      bio: "An architect who sketches buildings by day and plans surprise chai dates by evening. Calm, patient, and completely in love with Priyanka's laugh.",
     },
     bride: {
-      firstName: "Diya",
-      fullName: "Diya Sharma",
-      bio: "A doctor with the warmest heart in every room. She believed love was a distraction — until Aarav proved her beautifully wrong.",
+      firstName: "Priyanka",
+      fullName: "Priyanka Sharma",
+      bio: "A doctor with the warmest heart in every room. She believed love was a distraction — until Anand proved her beautifully wrong.",
     },
   },
 
-  hashtag: "#AaravWedsDiya",
-  instagramUrl: "https://instagram.com/aarav.weds.diya",
-  instagramHandle: "@aarav.weds.diya",
+  hashtag: "#AnandWedsPriyanka",
+  instagramUrl: "https://instagram.com/anand.weds.priyanka",
+  instagramHandle: "@anand.weds.priyanka",
 
   /** The wedding moment the countdown runs to (IST). */
   weddingDateISO: "2026-11-18T19:00:00+05:30",
@@ -57,7 +57,7 @@ export const wedding = {
       {
         year: "2019",
         title: "Pehli Mulaqaat",
-        text: "A crowded Jaipur café, one shared table, and a conversation that refused to end. Aarav still insists Diya stole his chair. Diya insists he stole her heart first.",
+         text: "A crowded Jaipur café, one shared table, and a conversation that refused to end. Anand still insists Priyanka stole his chair. Priyanka insists he stole her heart first.",
       },
       {
         year: "2021",
@@ -67,7 +67,7 @@ export const wedding = {
       {
         year: "2024",
         title: "The Proposal",
-        text: "Under a thousand fairy lights at Nahargarh Fort, Aarav went down on one knee. Diya said yes before he could finish the question.",
+         text: "Under a thousand fairy lights at Nahargarh Fort, Anand went down on one knee. Priyanka said yes before he could finish the question.",
       },
       {
         year: "2026",
@@ -83,14 +83,14 @@ export const wedding = {
       name: "The Sharma Family",
       members: "Rajesh & Sunita Sharma · with Dadi Maa",
       intro:
-        "Jaipur wale Sharmas — known for their garam chai, louder laughter, and a door that is always open. Diya is their pride, and now Aarav is their newest son.",
+         "Jaipur wale Sharmas — known for their garam chai, louder laughter, and a door that is always open. Priyanka is their pride, and now Anand is their newest son.",
     },
     groom: {
       side: { en: "The Groom's Family", hi: "दूल्हे का परिवार" },
       name: "The Mehta Family",
       members: "Vikram & Anita Mehta · with Nanu Ji",
       intro:
-        "The Mehtas believe every celebration deserves one extra mithai and one extra hug. They waited years for a daughter — Diya arrived and stole the whole house.",
+         "The Mehtas believe every celebration deserves one extra mithai and one extra hug. They waited years for a daughter — Priyanka arrived and stole the whole house.",
     },
   },
 
@@ -150,13 +150,13 @@ export const wedding = {
       name: "Dadi Maa",
       relation: "Bride's Grandmother",
       message:
-        "Meri Diya jab chhoti thi, kehti thi shaadi usse nahin karni. Ab dekho... jab sahi insaan milta hai na, sab badal jaata hai. Bahut khush hoon main.",
+         "Meri Priyanka jab chhoti thi, kehti thi shaadi usse nahin karni. Ab dekho... jab sahi insaan milta hai na, sab badal jaata hai. Bahut khush hoon main.",
     },
     {
       name: "Rohan Mehta",
       relation: "Groom's Brother",
       message:
-        "Growing up, Aarav bhaiya was the serious one. Then Diya bhabhi entered his life and suddenly he started smiling at his phone. About time!",
+         "Growing up, Anand bhaiya was the serious one. Then Priyanka bhabhi entered his life and suddenly he started smiling at his phone. About time!",
     },
     {
       name: "Priya Nair",
@@ -168,7 +168,7 @@ export const wedding = {
       name: "Nanu Ji",
       relation: "Groom's Grandfather",
       message:
-        "Aarav ne hamesha sabka khayaal rakha. Ab uske khayaal rakhne wali aa gayi hai. Jodi rab ne banayi hai — hum bas witness hain.",
+         "Anand ne hamesha sabka khayaal rakha. Ab uske khayaal rakhne wali aa gayi hai. Jodi rab ne banayi hai — hum bas witness hain.",
     },
   ],
 
