@@ -11,13 +11,13 @@ export const wedding = {
   couple: {
     groom: {
       firstName: "Anand",
-      fullName: "Anand Mehta",
-      bio: "An architect who sketches buildings by day and plans surprise chai dates by evening. Calm, patient, and completely in love with Priyanka's laugh.",
+      fullName: "Anand Raghuwanshi",
+      bio: "Raghuwanshi parivaar ka beta — shaant, zimmedaar, aur thoda sharmeela. Rishta pakka hone ke baad usne Priyanka ko roz ek call kiya, kabhi naagha nahin.",
     },
     bride: {
       firstName: "Priyanka",
-      fullName: "Priyanka Sharma",
-      bio: "A doctor with the warmest heart in every room. She believed love was a distraction — until Anand proved her beautifully wrong.",
+      fullName: "Priyanka Saxena",
+      bio: "Saxena parivaar ki beti — hansmukh, samajhdaar aur dil se apnon ki. Pehli video call par sirf 'hello' kaha tha, phir baatein khatam hi nahin hui.",
     },
   },
 
@@ -26,10 +26,11 @@ export const wedding = {
   instagramHandle: "@anand.weds.priyanka",
 
   /** The wedding moment the countdown runs to (IST). */
-  weddingDateISO: "2026-11-18T19:00:00+05:30",
+  weddingDateISO: "2026-11-19T19:00:00+05:30",
   dateShort: "18 · 19 Nov 2026",
   dateLong: "18th & 19th November 2026",
-  city: "Jaipur, Rajasthan",
+  city: "Burhanpur, Madhya Pradesh",
+  venue: "Burhanpur Palace, Burhanpur (M.P.)",
 
   /** Opening experience copy */
   opening: {
@@ -45,34 +46,39 @@ export const wedding = {
   },
 
   hero: {
-    line: "Do dil, ek kahaani... aur ab ek nayi shuruaat.",
-    sub: "Together with their families",
+    line: "Do parivaaron ne rishta jodha... aur do ajnabee dheere-dheere apne ban gaye.",
+    sub: "Saxena & Raghuwanshi parivaar ke saath",
   },
 
   story: {
     title: { en: "Our Story", hi: "हमारी कहानी" },
     intro:
-      "Kuch kahaaniyan filmon se shuru nahi hoti... humari ek chai ke cup se shuru hui.",
+      "Humari kahaani ek mulaqaat se nahi, ek rishte se shuru hui — aur phir ek phone call ne use pyaar bana diya.",
     moments: [
       {
-        year: "2019",
-        title: "Pehli Mulaqaat",
-         text: "A crowded Jaipur café, one shared table, and a conversation that refused to end. Anand still insists Priyanka stole his chair. Priyanka insists he stole her heart first.",
+        year: "Pehla Kadam",
+        title: "Dono Parivaar Mile",
+        text: "Burhanpur mein baaton ki shuruaat bade-buzurgon se hui. Saxena aur Raghuwanshi parivaar mile, chai chali, aur dono taraf ek hi baat lagi — yeh rishta banna chahiye.",
       },
       {
-        year: "2021",
-        title: "Dosti Se Pyaar Tak",
-        text: "Late-night calls, monsoon drives, and hundred small adventures. Somewhere between the laughter, friendship quietly became something neither could deny.",
+        year: "Rishta Pakka",
+        title: "Haan Ho Gayi",
+        text: "Arrange marriage — hum ek doosre ko jaante bhi nahi the. Bas parivaar par bharosa tha. Jis din rishta pakka hua, dono ke haath thode kaanp rahe the aur dil bahut zyada.",
       },
       {
-        year: "2024",
-        title: "The Proposal",
-         text: "Under a thousand fairy lights at Nahargarh Fort, Anand went down on one knee. Priyanka said yes before he could finish the question.",
+        year: "Pehla Call",
+        title: "Hello... Namaste",
+        text: "Pehla phone call sirf paanch minute ka tha, aur uss mein bhi aadha waqt chup rahe. Agle din phir call kiya... aur woh paanch minute do ghante ban gaye.",
       },
       {
-        year: "2026",
-        title: "Forever Begins",
-        text: "Ab jab aap yahan tak aa hi gaye hain... toh is kahaani ka sabse khoobsurat chapter aapke saath likhna hai.",
+        year: "Video Calls",
+        title: "Screen Ke Do Taraf",
+        text: "Ab tak humari saari mulaqaatein calls aur video calls par hui hain. Khaana, kaam, gaane, dar, sapne — sab share kiya. Ajeeb baat hai, doori mein hi ek dosti ban gayi.",
+      },
+      {
+        year: "18–19 Nov 2026",
+        title: "Ab Aamne-Saamne",
+        text: "Ab woh din aa raha hai jab screen hat jaayegi. Burhanpur mein, apne logon ke beech, dulha-dulhan ban kar milenge — aur aapka aashirvaad is kahaani ka pehla page hoga.",
       },
     ],
   },
@@ -80,60 +86,61 @@ export const wedding = {
   families: {
     bride: {
       side: { en: "The Bride's Family", hi: "दुल्हन का परिवार" },
-      name: "The Sharma Family",
-      members: "Rajesh & Sunita Sharma · with Dadi Maa",
+      name: "The Saxena Family",
+      members:
+        "Shri Manoj & Smt. Seema Saxena · Dadaji Shri K. N. Saxena · Dadiji Smt. Premkumari Saxena",
       intro:
-         "Jaipur wale Sharmas — known for their garam chai, louder laughter, and a door that is always open. Priyanka is their pride, and now Anand is their newest son.",
+        "Burhanpur ke Saxena parivaar — jahan har mehmaan pehle chai peeta hai, phir baat karta hai. Priyanka unka maan hai, aur is ghar ki har khushi mein dadaji-dadiji ka aashirvaad sabse aage hai.",
     },
     groom: {
       side: { en: "The Groom's Family", hi: "दूल्हे का परिवार" },
-      name: "The Mehta Family",
-      members: "Vikram & Anita Mehta · with Nanu Ji",
+      name: "The Raghuwanshi Family",
+      members: "Shri [Father's Name] & Smt. [Mother's Name] Raghuwanshi",
       intro:
-         "The Mehtas believe every celebration deserves one extra mithai and one extra hug. They waited years for a daughter — Priyanka arrived and stole the whole house.",
+        "Raghuwanshi parivaar — jinke liye rishte nibhaana sabse badi rasm hai. Ghar mein hansi zyada hai, formality kam. Priyanka ab is ghar ki beti hai.",
     },
   },
 
   events: [
     {
-      name: "Mehendi",
-      date: "17 November 2026",
-      time: "11:00 AM onwards",
-      venue: "Sharma Residence, Civil Lines, Jaipur",
-      dress: "Shades of green",
-      note: "Henna, dholak, and the bride's favourite old songs. Come with your dancing hands.",
+      name: "Sagai",
+      date: "18 November 2026",
+      time: "12:00 PM",
+      venue: "Burhanpur Palace, Burhanpur (M.P.)",
+      dress: "Traditional / Festive",
+      note: "Ring, rasmein aur do parivaaron ki pehli official khushi. Yahin se do din ka jashn shuru hota hai.",
     },
     {
-      name: "Haldi",
+      name: "Mehndi",
       date: "18 November 2026",
-      time: "9:00 AM",
-      venue: "Sharma Residence Courtyard",
-      dress: "Yellow — clothes you can stain",
-      note: "Haldi, phool, aur thodi si shararat. Nobody leaves this one clean.",
+      time: "5:00 PM",
+      venue: "Burhanpur Palace, Burhanpur (M.P.)",
+      dress: "Shades of green",
+      note: "Mehndi ki khushboo, dholak, aur purane gaane. Haath rangwane ke liye taiyaar aa jaayein.",
     },
     {
       name: "Sangeet",
       date: "18 November 2026",
-      time: "7:00 PM",
-      venue: "The Leela Lawn, Jaipur",
+      time: "6:30 PM",
+      venue: "Burhanpur Palace, Burhanpur (M.P.)",
       dress: "Cocktail / Indo-western",
-      note: "Two families, one stage, unlimited drama. Performances mandatory, talent optional.",
+      note: "Do parivaar, ek stage, poora hungama. Performance zaroori hai — talent optional.",
+    },
+    {
+      name: "Haldi",
+      date: "19 November 2026",
+      time: "11:00 AM",
+      venue: "Burhanpur Palace, Burhanpur (M.P.)",
+      dress: "Yellow — kapde jo kharab ho sakein",
+      note: "Haldi, phool aur thodi si shararat. Is rasm se koi saaf nahi bachta.",
     },
     {
       name: "The Wedding",
-      date: "18 November 2026",
-      time: "Pheras from 9:30 PM",
-      venue: "Rajwada Palace, Jaipur",
-      dress: "Traditional Indian",
-      note: "The moment it all becomes forever. Varmala, pheras, and a few happy tears.",
-    },
-    {
-      name: "Reception",
       date: "19 November 2026",
       time: "7:00 PM",
-      venue: "Rajwada Palace Grand Lawn",
-      dress: "Evening formal",
-      note: "Dinner, dancing, and blessings for the newlyweds. Photos encouraged, diets banned.",
+      venue: "Burhanpur Palace, Burhanpur (M.P.)",
+      dress: "Traditional Indian",
+      note: "Varmala, pheras, aur woh lamha jab do ajnabee hamesha ke liye apne ban jaate hain.",
     },
   ],
 
@@ -141,46 +148,46 @@ export const wedding = {
     heading: "Shaadi sirf do logon ka milan nahi hoti...",
     sub: "yeh do parivaaron ka ek saath aana hota hai.",
     message:
-      "Is khoobsurat mauke par aapka saath humare liye bahut khaas hai. Aap zaroor aaiyega — milkar is celebration ko aur bhi yaadgaar banayenge. Aapke aashirvaad ke bina yeh kahaani adhoori rahegi.",
-    sign: "— Sharma & Mehta Parivaar",
+      "Yeh rishta humare bade-buzurgon ke aashirvaad se juda hai, aur aapki maujoodgi se poora hoga. Burhanpur mein, 18 aur 19 November ko, humare ghar ki is khushi mein zaroor aaiyega — aapke bina yeh jashn adhoora rahega.",
+    sign: "— Saxena & Raghuwanshi Parivaar",
   },
 
   testimonials: [
     {
-      name: "Dadi Maa",
+      name: "Dadiji",
       relation: "Bride's Grandmother",
       message:
-         "Meri Priyanka jab chhoti thi, kehti thi shaadi usse nahin karni. Ab dekho... jab sahi insaan milta hai na, sab badal jaata hai. Bahut khush hoon main.",
+        "Meri Priyanka ke liye humne bahut soch kar rishta chuna. Ab jab dono ki baatein sunti hoon phone par, lagta hai Bhagwan ne khud jodi banayi hai. Bahut khush hoon main.",
     },
     {
-      name: "Rohan Mehta",
-      relation: "Groom's Brother",
+      name: "Dadaji K. N. Saxena",
+      relation: "Bride's Grandfather",
       message:
-         "Growing up, Anand bhaiya was the serious one. Then Priyanka bhabhi entered his life and suddenly he started smiling at his phone. About time!",
+        "Rishta parivaaron se banta hai, aur nibhta do logon ke bharose se. Anand beta shaant aur samajhdaar hai. Dono ko dher saara aashirvaad.",
     },
     {
-      name: "Priya Nair",
-      relation: "Bride's Best Friend",
+      name: "Neha",
+      relation: "Bride's Cousin",
       message:
-        "I have watched this love story from the front row since day one. Two better people simply do not exist. Wishing them a lifetime of chai dates.",
+        "Pehle Priyanka didi bilkul nervous thi. Ab raat ko 12 baje bhi video call par hansti rehti hai. Yeh badlaav dekhna sabse pyaara raha.",
     },
     {
-      name: "Nanu Ji",
-      relation: "Groom's Grandfather",
+      name: "Raghuwanshi Parivaar",
+      relation: "Groom's Family",
       message:
-         "Anand ne hamesha sabka khayaal rakha. Ab uske khayaal rakhne wali aa gayi hai. Jodi rab ne banayi hai — hum bas witness hain.",
+        "Humein ek bahu nahi, ek beti mil rahi hai. 19 November ka intezaar poore ghar ko hai.",
     },
   ],
 
   instagram: {
     title: { en: "Join Our Journey", hi: "हमारे सफ़र से जुड़िए" },
-    text: "Every candid moment, every behind-the-scenes memory, every photograph from the wedding — and all the memories after it — will live on our wedding Instagram. Follow along, today and always.",
+    text: "Har candid moment, har behind-the-scenes yaad, shaadi ki saari tasveerein — sab humare wedding Instagram par rahengi. Follow kariye, aaj aur hamesha.",
   },
 
   postWedding: {
     heading: "Our Beautiful Beginning",
     message:
-      "The pheras are done, the promises are made — and this little corner of the internet now holds every memory of the days we became forever. Relive them with us.",
+      "Pheras ho gaye, vaade nibhaye ja rahe hain — aur internet ka yeh chhota kona ab un do dinon ki har yaad sambhal kar rakhta hai. Humare saath phir se jee lijiye.",
   },
 };
 
@@ -206,11 +213,15 @@ export const ui = {
     yourMessage: "Your blessing or a favourite memory...",
     sendBlessing: "Send Blessings",
     blessingThanks: "Shukriya! Aapka aashirvaad mil gaya.",
+    blessingError: "Kuch gadbad ho gayi. Dobara koshish kijiye.",
     memoriesTitle: "Share Your Memory",
     memoriesQuestion: "Do you have a photo with the bride or groom?",
-    memoriesLine: "Share it with us ❤️ — it will become part of this wedding's digital memory book.",
+    memoriesLine:
+      "Share it with us ❤️ — it will become part of this wedding's digital memory book.",
     uploadPhoto: "Upload a photo",
+    uploading: "Uploading...",
     memoriesEmpty: "Uploaded memories will appear here, forever.",
+    memoriesHint: "Swipe to see all the memories guests have shared →",
     days: "Days",
     hours: "Hours",
     minutes: "Minutes",
@@ -238,11 +249,15 @@ export const ui = {
     yourMessage: "आपका आशीर्वाद या कोई प्यारी याद...",
     sendBlessing: "आशीर्वाद भेजें",
     blessingThanks: "शुक्रिया! आपका आशीर्वाद मिल गया।",
+    blessingError: "कुछ गड़बड़ हो गई। दोबारा कोशिश कीजिए।",
     memoriesTitle: "अपनी यादें साझा करें",
     memoriesQuestion: "क्या आपके पास दुल्हन या दूल्हे के साथ कोई तस्वीर है?",
-    memoriesLine: "हमारे साथ साझा करें ❤️ — यह इस शादी की डिजिटल यादों की किताब का हिस्सा बनेगी।",
+    memoriesLine:
+      "हमारे साथ साझा करें ❤️ — यह इस शादी की डिजिटल यादों की किताब का हिस्सा बनेगी।",
     uploadPhoto: "तस्वीर अपलोड करें",
+    uploading: "अपलोड हो रहा है...",
     memoriesEmpty: "अपलोड की गई यादें यहाँ दिखेंगी, हमेशा के लिए।",
+    memoriesHint: "मेहमानों की साझा की गई यादें देखने के लिए स्वाइप करें →",
     days: "दिन",
     hours: "घंटे",
     minutes: "मिनट",
