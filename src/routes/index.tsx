@@ -50,11 +50,12 @@ function Index() {
   const [relation, setRelation] = useState<string | null>(null);
 
   useEffect(() => {
+    // The cinematic intro plays on every visit — clear any older saved flag.
     try {
+      localStorage.removeItem("wd_intro");
       const l = localStorage.getItem("wd_lang");
       if (l === "en" || l === "hi") setLang(l);
       setRelation(localStorage.getItem("wd_relation"));
-      if (localStorage.getItem("wd_intro") === "done") setStarted(true);
     } catch {
       /* private mode — show intro */
     }
@@ -73,7 +74,6 @@ function Index() {
     setRelation(r);
     setStarted(true);
     try {
-      localStorage.setItem("wd_intro", "done");
       localStorage.setItem("wd_lang", l);
       localStorage.setItem("wd_relation", r);
     } catch {
