@@ -1,59 +1,64 @@
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, Loader2 } from "lucide-react";
 import { ui, type Lang } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
+import { supabase } from "@/integrations/supabase/client";
 
-const STORAGE_KEY = "wd_memories";
-
-function loadMemories(): string[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as string[]) : [];
-  } catch {
-    return [];
-  }
+interface Memory {
+  id: string;
+  image_path: string;
+  caption: string | null;
 }
 
-/** Downscale to keep localStorage light. */
-function fileToThumb(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      const max = 900;
-      const scale = Math.min(1, max / Math.max(img.width, img.height));
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(img.width * scale);
-      canvas.height = Math.round(img.height * scale);
-      canvas.getContext("2d")?.drawImage(img, 0, 0, canvas.width, canvas.height);
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/jpeg", 0.78));
-    };
-    img.onerror = reject;
-    img.src = url;
-  });
+function publicUrl(path: string) {
+  const { data } = supabase.storage.from("memories").getPublicUrl(path);
+  return data.publicUrl;
 }
 
 export function Memories({ lang }: { lang: Lang }) {
   const t = ui[lang];
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState<Memory[]>([]);
+  const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => setPhotos(loadMemories()), []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    supabase
+      .from("memories")
+      .select("id, image_path, caption, created_at")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error("[memories fetch]", error.message);
+        if (data) setPhotos(data as Memory[]);
+      });
+  }, []);
 
   const onFiles = async (files: FileList | null) => {
     if (!files?.length) return;
-    const thumbs: string[] = [];
-    for (const f of Array.from(files).slice(0, 6)) {
-      if (f.type.startsWith("image/")) thumbs.push(await fileToThumb(f));
+    setUploading(true);
+
+    for (const file of Array.from(files).slice(0, 6)) {
+      if (!file.type.startsWith("image/")) continue;
+      const ext = file.name.split(".").pop() ?? "jpg";
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: upErr } = await supabase.storage
+        .from("memories")
+        .upload(path, file, { cacheControl: "3600", upsert: false });
+
+      if (upErr) continue;
+
+      const { data } = await supabase
+        .from("memories")
+        .insert({ image_path: path })
+        .select("id, image_path, caption")
+        .single();
+
+      if (data) setPhotos((prev) => [data as Memory, ...prev]);
     }
-    const next = [...thumbs, ...photos].slice(0, 24);
-    setPhotos(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* quota — keep in-session only */
-    }
+
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
@@ -71,6 +76,30 @@ export function Memories({ lang }: { lang: Lang }) {
           </p>
         </Reveal>
 
+        {/* Scrolling photo row — shown above upload button when photos exist */}
+        {photos.length > 0 && (
+          <Reveal delay={160}>
+            <div className="mt-10 -mx-6 overflow-x-auto scrollbar-none">
+              <div className="flex gap-3 px-6 pb-2" style={{ width: "max-content" }}>
+                {photos.map((m) => (
+                  <div
+                    key={m.id}
+                    className="h-48 w-36 flex-shrink-0 overflow-hidden rounded-2xl ring-1 ring-border shadow-md transition-transform duration-500 hover:scale-105"
+                  >
+                    <img
+                      src={publicUrl(m.image_path)}
+                      alt="Guest memory"
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* Upload button */}
         <Reveal delay={220}>
           <input
             ref={inputRef}
@@ -82,30 +111,19 @@ export function Memories({ lang }: { lang: Lang }) {
           />
           <button
             onClick={() => inputRef.current?.click()}
-            className="mt-9 inline-flex items-center gap-2.5 rounded-full bg-wine px-8 py-4 text-sm font-medium tracking-[0.12em] text-ivory shadow-[0_16px_40px_-14px] shadow-wine/60 transition-all hover:bg-wine-deep active:scale-95"
+            disabled={uploading}
+            className="mt-9 inline-flex items-center gap-2.5 rounded-full bg-wine px-8 py-4 text-sm font-medium tracking-[0.12em] text-ivory shadow-[0_16px_40px_-14px] shadow-wine/60 transition-all hover:bg-wine-deep active:scale-95 disabled:opacity-60"
           >
-            <ImagePlus className="h-4 w-4" /> {t.uploadPhoto}
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <ImagePlus className="h-4 w-4" />
+            )}
+            {uploading ? "Uploading..." : t.uploadPhoto}
           </button>
         </Reveal>
 
-        {photos.length > 0 ? (
-          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {photos.map((src, i) => (
-              <div
-                key={i}
-                className="animate-fade-up aspect-square overflow-hidden rounded-xl ring-1 ring-border"
-                style={{ animationDelay: `${i * 60}ms` }}
-              >
-                <img
-                  src={src}
-                  alt="Guest memory"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
+        {photos.length === 0 && !uploading && (
           <p className="mt-12 text-sm italic text-muted-foreground">
             {t.memoriesEmpty}
           </p>

@@ -2,53 +2,66 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Heart, Send } from "lucide-react";
 import { wedding, ui, type Lang } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Blessing {
+  id?: string;
   name: string;
-  relation: string;
+  relation: string | null;
   message: string;
-}
-
-const STORAGE_KEY = "wd_blessings";
-
-function loadBlessings(): Blessing[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Blessing[]) : [];
-  } catch {
-    return [];
-  }
 }
 
 export function Blessings({ lang }: { lang: Lang }) {
   const t = ui[lang];
-  const [guest, setGuest] = useState<Blessing[]>([]);
+  const [dbBlessings, setDbBlessings] = useState<Blessing[]>([]);
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => setGuest(loadBlessings()), []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    supabase
+      .from("blessings")
+      .select("id, name, relation, message, created_at")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error("[blessings fetch]", error.message);
+        if (data) setDbBlessings(data as Blessing[]);
+      });
+  }, []);
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const b: Blessing = {
       name: String(fd.get("name") || "").trim(),
-      relation: String(fd.get("relation") || "").trim(),
+      relation: String(fd.get("relation") || "").trim() || null,
       message: String(fd.get("message") || "").trim(),
     };
     if (!b.name || !b.message) return;
-    const next = [b, ...guest];
-    setGuest(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* storage full — blessing still shows this session */
-    }
+
+    // Optimistic update
+    setDbBlessings((prev) => [b, ...prev]);
     e.currentTarget.reset();
     setSent(true);
     window.setTimeout(() => setSent(false), 4000);
+
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("blessings")
+      .insert({ name: b.name, relation: b.relation, message: b.message })
+      .select("id, name, relation, message, created_at")
+      .single();
+    setLoading(false);
+
+    if (error) {
+      console.error("[blessings insert]", error.message);
+    }
+    if (data) {
+      setDbBlessings((prev) => [data as Blessing, ...prev.slice(1)]);
+    }
   };
 
-  const all = [...guest, ...wedding.testimonials];
+  const all = [...dbBlessings, ...wedding.testimonials];
 
   return (
     <section className="bg-cream px-6 py-24 sm:py-32">
@@ -70,7 +83,7 @@ export function Blessings({ lang }: { lang: Lang }) {
                 <blockquote className="rounded-2xl bg-card p-6 shadow-[0_16px_44px_-26px] shadow-wine/25 ring-1 ring-border">
                   <Heart className="h-4 w-4 fill-wine text-wine" />
                   <p className="font-display mt-3 text-lg italic leading-relaxed text-foreground/85">
-                    “{b.message}”
+                    "{b.message}"
                   </p>
                   <footer className="mt-4">
                     <div className="gold-hairline w-12" />
@@ -119,7 +132,8 @@ export function Blessings({ lang }: { lang: Lang }) {
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <button
                 type="submit"
-                className="flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-medium tracking-[0.1em] text-noir transition-all hover:brightness-110 active:scale-95"
+                disabled={loading}
+                className="flex items-center gap-2 rounded-full bg-gold px-7 py-3 text-sm font-medium tracking-[0.1em] text-noir transition-all hover:brightness-110 active:scale-95 disabled:opacity-60"
               >
                 <Send className="h-4 w-4" /> {t.sendBlessing}
               </button>

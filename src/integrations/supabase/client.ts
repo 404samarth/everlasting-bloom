@@ -62,6 +62,8 @@ let _supabase: ReturnType<typeof createSupabaseClient> | undefined;
 // import { supabase } from "@/integrations/supabase/client";
 export const supabase = new Proxy({} as ReturnType<typeof createSupabaseClient>, {
   get(_, prop, receiver) {
+    // Never initialise during SSR — env vars may not be available server-side
+    if (typeof window === 'undefined') return () => Promise.resolve({ data: null, error: null });
     if (!_supabase) _supabase = createSupabaseClient();
     return Reflect.get(_supabase, prop, receiver);
   },
