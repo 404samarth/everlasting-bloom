@@ -204,7 +204,7 @@ function SceneLanguage({ onLang }: { onLang: (l: Lang) => void }) {
         alt=""
         width={1024}
         height={1280}
-        className="h-full w-full scale-110 object-cover blur-2xl"
+        className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl"
       />
       <div className="absolute inset-0 bg-noir/55" />
       <div className="vignette absolute inset-0" />
@@ -291,7 +291,7 @@ function SceneDate({
         alt=""
         width={1024}
         height={1280}
-        className="h-full w-full scale-110 object-cover blur-lg brightness-75"
+        className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg brightness-75"
       />
       <div className="absolute inset-0 bg-noir/60" />
       <div className="relative flex h-full flex-col items-center justify-center gap-9 px-8 text-center">
