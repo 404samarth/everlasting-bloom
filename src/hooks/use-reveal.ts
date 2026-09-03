@@ -24,8 +24,30 @@ export function useReveal<T extends HTMLElement>(enabled = true) {
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
     );
 
-    el.querySelectorAll(".reveal").forEach((t) => io.observe(t));
-    return () => io.disconnect();
+    const observeAll = (root: ParentNode) => {
+      if (root instanceof HTMLElement && root.classList.contains("reveal")) {
+        io.observe(root);
+      }
+      root.querySelectorAll(".reveal").forEach((t) => io.observe(t));
+    };
+
+    observeAll(el);
+
+    // Content added later (async data, new blessings, uploaded photos) must
+    // also get revealed — otherwise it stays invisible forever.
+    const mo = new MutationObserver((records) => {
+      for (const r of records) {
+        r.addedNodes.forEach((n) => {
+          if (n.nodeType === 1) observeAll(n as HTMLElement);
+        });
+      }
+    });
+    mo.observe(el, { childList: true, subtree: true });
+
+    return () => {
+      mo.disconnect();
+      io.disconnect();
+    };
   }, [enabled]);
 
   return ref;
