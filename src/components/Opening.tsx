@@ -214,13 +214,13 @@ function SceneLanguage({ onLang }: { onLang: (l: Lang) => void }) {
         </p>
         <p
           className="animate-fade-up font-display text-3xl font-medium text-ivory sm:text-4xl"
-          style={{ animationDelay: "500ms" }}
+          style={{ animationDelay: "150ms" }}
         >
           Ek chhoti si choice...
         </p>
         <div
           className="animate-fade-up flex items-center gap-4"
-          style={{ animationDelay: "1100ms" }}
+          style={{ animationDelay: "350ms" }}
         >
           <button
             onClick={() => onLang("en")}
