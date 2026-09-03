@@ -348,11 +348,12 @@
 }
 
 @utility scene-enter {
-  animation: scene-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: scene-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @utility scene-exit {
-  animation: scene-out 0.9s ease both;
+  animation: scene-out 0.4s ease both;
+  pointer-events: none;
 }
 
 @utility vignette {

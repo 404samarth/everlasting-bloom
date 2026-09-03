@@ -24,7 +24,7 @@ export function OpeningExperience({
     (next: number) => {
       setLeaving(scene);
       setScene(next);
-      window.setTimeout(() => setLeaving(null), 950);
+      window.setTimeout(() => setLeaving(null), 450);
     },
     [scene],
   );
@@ -214,13 +214,13 @@ function SceneLanguage({ onLang }: { onLang: (l: Lang) => void }) {
         </p>
         <p
           className="animate-fade-up font-display text-3xl font-medium text-ivory sm:text-4xl"
-          style={{ animationDelay: "500ms" }}
+          style={{ animationDelay: "150ms" }}
         >
           Ek chhoti si choice...
         </p>
         <div
           className="animate-fade-up flex items-center gap-4"
-          style={{ animationDelay: "1100ms" }}
+          style={{ animationDelay: "350ms" }}
         >
           <button
             onClick={() => onLang("en")}
@@ -253,16 +253,19 @@ function SceneReveal() {
         className="blur-stage h-full w-full scale-105 object-cover blur-md brightness-90"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-noir/50" />
-      <div className="absolute inset-x-0 bottom-16 flex flex-col items-center gap-3 text-center">
-        <p
-          className="animate-fade-up font-display text-2xl italic text-ivory/90 sm:text-3xl"
-          style={{ animationDelay: "1200ms" }}
-        >
+      <div className="absolute inset-x-0 bottom-16 flex flex-col items-center gap-3 px-6 text-center">
+        <p className="animate-fade-up font-display text-2xl italic text-ivory/90 sm:text-3xl">
           Kaun hai yeh dono?
         </p>
         <p
+          className="animate-fade-up font-display text-3xl font-medium text-gold sm:text-4xl"
+          style={{ animationDelay: "400ms" }}
+        >
+          {wedding.couple.bride.firstName} & {wedding.couple.groom.firstName}
+        </p>
+        <p
           className="animate-fade-up text-xs uppercase tracking-[0.35em] text-gold/80"
-          style={{ animationDelay: "1800ms" }}
+          style={{ animationDelay: "800ms" }}
         >
           Keep watching
         </p>
