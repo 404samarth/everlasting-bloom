@@ -24,7 +24,7 @@ export function OpeningExperience({
     (next: number) => {
       setLeaving(scene);
       setScene(next);
-      window.setTimeout(() => setLeaving(null), 950);
+      window.setTimeout(() => setLeaving(null), 450);
     },
     [scene],
   );
