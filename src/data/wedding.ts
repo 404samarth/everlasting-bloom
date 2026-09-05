@@ -6,6 +6,7 @@
  */
 
 export type Lang = "en" | "hi";
+export type Side = "bride" | "groom";
 
 export const wedding = {
   couple: {
@@ -37,12 +38,13 @@ export const wedding = {
     dateQuestion: "Aapko pata hai 18–19 November ko kya hai?",
     noResponse: "Koi baat nahi... ab zindagi bhar yaad rahega 😌",
     relations: [
-      "Bride Family",
-      "Groom Family",
-      "Bride Friend",
-      "Groom Friend",
-      "Bride/Groom Relative",
-    ],
+      { label: "Bride Family", side: "bride" },
+      { label: "Bride Friend", side: "bride" },
+      { label: "Bride's Relative", side: "bride" },
+      { label: "Groom Family", side: "groom" },
+      { label: "Groom Friend", side: "groom" },
+      { label: "Groom's Relative", side: "groom" },
+    ] as { label: string; side: Side }[],
   },
 
   hero: {
@@ -156,28 +158,46 @@ export const wedding = {
     {
       name: "Dadiji",
       relation: "Bride's Grandmother",
+      side: "bride",
       message:
         "Meri Priyanka ke liye humne bahut soch kar rishta chuna. Ab jab dono ki baatein sunti hoon phone par, lagta hai Bhagwan ne khud jodi banayi hai. Bahut khush hoon main.",
     },
     {
       name: "Dadaji K. N. Saxena",
       relation: "Bride's Grandfather",
+      side: "bride",
       message:
         "Rishta parivaaron se banta hai, aur nibhta do logon ke bharose se. Anand beta shaant aur samajhdaar hai. Dono ko dher saara aashirvaad.",
     },
     {
       name: "Neha",
       relation: "Bride's Cousin",
+      side: "bride",
       message:
         "Pehle Priyanka didi bilkul nervous thi. Ab raat ko 12 baje bhi video call par hansti rehti hai. Yeh badlaav dekhna sabse pyaara raha.",
     },
     {
       name: "Raghuwanshi Parivaar",
       relation: "Groom's Family",
+      side: "groom",
       message:
         "Humein ek bahu nahi, ek beti mil rahi hai. 19 November ka intezaar poore ghar ko hai.",
     },
-  ],
+    {
+      name: "Anand ki Bua",
+      relation: "Groom's Aunt",
+      side: "groom",
+      message:
+        "Anand hamesha kaam mein busy rehta tha, ab uske chehre par ek nayi muskaan hai. Priyanka beti ka swaagat poore dil se.",
+    },
+    {
+      name: "Rohit",
+      relation: "Groom's Friend",
+      side: "groom",
+      message:
+        "Jo banda phone kabhi nahi uthata tha, wo aaj ghanton video call par lagta hai. Bhai, tu set ho gaya!",
+    },
+  ] as { name: string; relation: string; side: Side; message: string }[],
 
   instagram: {
     title: { en: "Join Our Journey", hi: "हमारे सफ़र से जुड़िए" },
