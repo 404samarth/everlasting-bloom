@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus, Loader2 } from "lucide-react";
+import { ImagePlus, Loader2, X, Images } from "lucide-react";
 import { ui, type Lang } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,30 +8,55 @@ interface Memory {
   id: string;
   image_path: string;
   caption: string | null;
+  url?: string | undefined;
 }
 
-function publicUrl(path: string) {
-  const { data } = supabase.storage.from("memories").getPublicUrl(path);
-  return data.publicUrl;
+const ROW_LIMIT = 12;
+
+async function withUrls(rows: Memory[]): Promise<Memory[]> {
+  if (!rows.length) return [];
+  const { data } = await supabase.storage
+    .from("memories")
+    .createSignedUrls(
+      rows.map((r) => r.image_path),
+      60 * 60 * 24 * 7,
+    );
+  return rows.map((r, i) => ({ ...r, url: data?.[i]?.signedUrl ?? undefined }));
 }
 
 export function Memories({ lang }: { lang: Lang }) {
   const t = ui[lang];
   const [photos, setPhotos] = useState<Memory[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [albumOpen, setAlbumOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    supabase
-      .from("memories")
-      .select("id, image_path, caption, created_at")
-      .order("created_at", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) console.error("[memories fetch]", error.message);
-        if (data) setPhotos(data as Memory[]);
-      });
+    let alive = true;
+    (async () => {
+      const { data, error } = await supabase
+        .from("memories")
+        .select("id, image_path, caption, created_at")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("[memories fetch]", error.message);
+        return;
+      }
+      const withSigned = await withUrls((data ?? []) as Memory[]);
+      if (alive) setPhotos(withSigned);
+    })();
+    return () => {
+      alive = false;
+    };
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = albumOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [albumOpen]);
 
   const onFiles = async (files: FileList | null) => {
     if (!files?.length) return;
@@ -46,20 +71,30 @@ export function Memories({ lang }: { lang: Lang }) {
         .from("memories")
         .upload(path, file, { cacheControl: "3600", upsert: false });
 
-      if (upErr) continue;
+      if (upErr) {
+        console.error("[memory upload]", upErr.message);
+        continue;
+      }
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("memories")
         .insert({ image_path: path })
         .select("id, image_path, caption")
         .single();
 
-      if (data) setPhotos((prev) => [data as Memory, ...prev]);
+      if (error) console.error("[memory insert]", error.message);
+      if (data) {
+        const withUrl = (await withUrls([data as Memory]))[0];
+        if (withUrl) setPhotos((prev) => [withUrl, ...prev]);
+      }
     }
 
     setUploading(false);
     if (inputRef.current) inputRef.current.value = "";
   };
+
+  const rowPhotos = photos.slice(0, ROW_LIMIT);
+  const showAlbumButton = photos.length > ROW_LIMIT;
 
   return (
     <section className="bg-background px-6 py-24 sm:py-32">
@@ -76,31 +111,49 @@ export function Memories({ lang }: { lang: Lang }) {
           </p>
         </Reveal>
 
-        {/* Scrolling photo row — shown above upload button when photos exist */}
-        {photos.length > 0 && (
-          <Reveal delay={160}>
-            <div className="mt-10 -mx-6 overflow-x-auto scrollbar-none">
-              <div className="flex gap-3 px-6 pb-2" style={{ width: "max-content" }}>
-                {photos.map((m) => (
-                  <div
-                    key={m.id}
-                    className="h-48 w-36 flex-shrink-0 overflow-hidden rounded-2xl ring-1 ring-border shadow-md transition-transform duration-500 hover:scale-105"
-                  >
+        {/* Scrolling photo row — above the upload button */}
+        {rowPhotos.length > 0 && (
+          <div className="mt-10 -mx-6 overflow-x-auto scrollbar-none">
+            <div
+              className="flex snap-x snap-mandatory gap-3 px-6 pb-2"
+              style={{ width: "max-content" }}
+            >
+              {rowPhotos.map((m) => (
+                <div
+                  key={m.id}
+                  className="animate-fade-up h-48 w-36 flex-shrink-0 snap-start overflow-hidden rounded-2xl shadow-md ring-1 ring-border transition-transform duration-500 hover:scale-105"
+                >
+                  {m.url && (
                     <img
-                      src={publicUrl(m.image_path)}
-                      alt="Guest memory"
+                      src={m.url}
+                      alt="A memory shared by a guest"
                       loading="lazy"
                       className="h-full w-full object-cover"
                     />
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              ))}
             </div>
-          </Reveal>
+          </div>
+        )}
+
+        {rowPhotos.length > 0 && (
+          <p className="mt-3 text-xs italic text-muted-foreground">
+            {t.memoriesHint}
+          </p>
+        )}
+
+        {showAlbumButton && (
+          <button
+            onClick={() => setAlbumOpen(true)}
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-wine/30 px-6 py-3 text-sm font-medium tracking-[0.1em] text-wine transition-colors hover:bg-wine/5"
+          >
+            <Images className="h-4 w-4" /> {t.viewAllPhotos} ({photos.length})
+          </button>
         )}
 
         {/* Upload button */}
-        <Reveal delay={220}>
+        <div>
           <input
             ref={inputRef}
             type="file"
@@ -119,9 +172,9 @@ export function Memories({ lang }: { lang: Lang }) {
             ) : (
               <ImagePlus className="h-4 w-4" />
             )}
-            {uploading ? "Uploading..." : t.uploadPhoto}
+            {uploading ? t.uploading : t.uploadPhoto}
           </button>
-        </Reveal>
+        </div>
 
         {photos.length === 0 && !uploading && (
           <p className="mt-12 text-sm italic text-muted-foreground">
@@ -129,6 +182,43 @@ export function Memories({ lang }: { lang: Lang }) {
           </p>
         )}
       </div>
+
+      {/* Album overlay — every photo as a card */}
+      {albumOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-noir/95 px-5 py-8 backdrop-blur-sm">
+          <div className="mx-auto max-w-4xl">
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-2xl font-medium italic text-gold">
+                {t.allPhotosTitle}
+              </h3>
+              <button
+                onClick={() => setAlbumOpen(false)}
+                aria-label={t.close}
+                className="rounded-full border border-ivory/20 p-2 text-ivory transition-colors hover:bg-ivory/10"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {photos.map((m) => (
+                <div
+                  key={m.id}
+                  className="overflow-hidden rounded-2xl bg-ivory/5 ring-1 ring-ivory/10"
+                >
+                  {m.url && (
+                    <img
+                      src={m.url}
+                      alt="A memory shared by a guest"
+                      loading="lazy"
+                      className="aspect-[3/4] w-full object-cover"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
