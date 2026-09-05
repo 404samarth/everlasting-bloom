@@ -8,7 +8,7 @@ interface Memory {
   id: string;
   image_path: string;
   caption: string | null;
-  url?: string;
+  url?: string | undefined;
 }
 
 const ROW_LIMIT = 12;
@@ -84,8 +84,8 @@ export function Memories({ lang }: { lang: Lang }) {
 
       if (error) console.error("[memory insert]", error.message);
       if (data) {
-        const [withUrl] = await withUrls([data as Memory]);
-        setPhotos((prev) => [withUrl, ...prev]);
+        const withUrl = (await withUrls([data as Memory]))[0];
+        if (withUrl) setPhotos((prev) => [withUrl, ...prev]);
       }
     }
 
