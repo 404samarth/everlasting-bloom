@@ -6,6 +6,7 @@
  */
 
 export type Lang = "en" | "hi";
+export type Side = "bride" | "groom";
 
 export const wedding = {
   couple: {
