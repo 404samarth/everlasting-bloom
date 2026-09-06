@@ -78,7 +78,7 @@ export function Memories({ lang }: { lang: Lang }) {
 
       const { data, error } = await supabase
         .from("memories")
-        .insert({ image_path: path })
+        .insert({ image_path: path, side })
         .select("id, image_path, caption")
         .single();
 
