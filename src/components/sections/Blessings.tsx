@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Heart, Send } from "lucide-react";
-import { wedding, ui, type Lang } from "@/data/wedding";
+import { wedding, ui, type Lang, type Side } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -9,9 +9,10 @@ interface Blessing {
   name: string;
   relation: string | null;
   message: string;
+  side?: Side;
 }
 
-export function Blessings({ lang }: { lang: Lang }) {
+export function Blessings({ lang, side }: { lang: Lang; side: Side }) {
   const t = ui[lang];
   const [dbBlessings, setDbBlessings] = useState<Blessing[]>([]);
   const [sent, setSent] = useState(false);
@@ -22,12 +23,13 @@ export function Blessings({ lang }: { lang: Lang }) {
     supabase
       .from("blessings")
       .select("id, name, relation, message, created_at")
+      .eq("side", side)
       .order("created_at", { ascending: false })
       .then(({ data, error }) => {
         if (error) console.error("[blessings fetch]", error.message);
         if (data) setDbBlessings(data as Blessing[]);
       });
-  }, []);
+  }, [side]);
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +50,7 @@ export function Blessings({ lang }: { lang: Lang }) {
     setLoading(true);
     const { data, error } = await supabase
       .from("blessings")
-      .insert({ name: b.name, relation: b.relation, message: b.message })
+      .insert({ name: b.name, relation: b.relation, message: b.message, side })
       .select("id, name, relation, message, created_at")
       .single();
     setLoading(false);
@@ -61,7 +63,10 @@ export function Blessings({ lang }: { lang: Lang }) {
     }
   };
 
-  const all = [...dbBlessings, ...wedding.testimonials];
+  const all = [
+    ...dbBlessings,
+    ...wedding.testimonials.filter((t) => t.side === side),
+  ];
 
   return (
     <section className="bg-cream px-6 py-24 sm:py-32">
