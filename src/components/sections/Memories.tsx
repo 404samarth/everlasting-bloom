@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Loader2, X, Images } from "lucide-react";
-import { ui, type Lang } from "@/data/wedding";
+import { ui, type Lang, type Side } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -24,7 +24,7 @@ async function withUrls(rows: Memory[]): Promise<Memory[]> {
   return rows.map((r, i) => ({ ...r, url: data?.[i]?.signedUrl ?? undefined }));
 }
 
-export function Memories({ lang }: { lang: Lang }) {
+export function Memories({ lang, side }: { lang: Lang; side: Side }) {
   const t = ui[lang];
   const [photos, setPhotos] = useState<Memory[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -38,6 +38,7 @@ export function Memories({ lang }: { lang: Lang }) {
       const { data, error } = await supabase
         .from("memories")
         .select("id, image_path, caption, created_at")
+        .eq("side", side)
         .order("created_at", { ascending: false });
       if (error) {
         console.error("[memories fetch]", error.message);
@@ -49,7 +50,7 @@ export function Memories({ lang }: { lang: Lang }) {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [side]);
 
   useEffect(() => {
     document.body.style.overflow = albumOpen ? "hidden" : "";
