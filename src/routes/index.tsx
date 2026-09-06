@@ -14,7 +14,7 @@ import { Memories } from "@/components/sections/Memories";
 import { InstagramSection } from "@/components/sections/InstagramSection";
 import { Footer } from "@/components/sections/Footer";
 import { useReveal } from "@/hooks/use-reveal";
-import { wedding, type Lang } from "@/data/wedding";
+import { wedding, type Lang, type Side } from "@/data/wedding";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,6 +48,7 @@ function Index() {
   const [hydrated, setHydrated] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
   const [relation, setRelation] = useState<string | null>(null);
+  const [side, setSide] = useState<Side>("bride");
 
   useEffect(() => {
     // The cinematic intro plays on every visit — clear any older saved flag.
@@ -69,13 +70,15 @@ function Index() {
     };
   }, [started]);
 
-  const complete = (l: Lang, r: string) => {
+  const complete = (l: Lang, r: string, s: Side) => {
     setLang(l);
     setRelation(r);
+    setSide(s);
     setStarted(true);
     try {
       localStorage.setItem("wd_lang", l);
       localStorage.setItem("wd_relation", r);
+      localStorage.setItem("wd_side", s);
     } catch {
       /* ignore */
     }
@@ -109,8 +112,8 @@ function Index() {
             <Events lang={lang} />
             <WeddingCard lang={lang} />
             <Invitation />
-            <Blessings lang={lang} />
-            <Memories lang={lang} />
+            <Blessings lang={lang} side={side} />
+            <Memories lang={lang} side={side} />
             <InstagramSection lang={lang} />
             <Footer lang={lang} />
           </main>
