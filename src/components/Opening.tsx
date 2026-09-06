@@ -334,7 +334,7 @@ function SceneRelation({
   onRelation,
 }: {
   lang: Lang;
-  onRelation: (r: string) => void;
+  onRelation: (label: string, side: Side) => void;
 }) {
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-8 overflow-hidden px-6">
