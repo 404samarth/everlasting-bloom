@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Heart, Eye } from "lucide-react";
 import ganeshImg from "@/assets/ganesh.jpg";
 import coupleImg from "@/assets/couple.jpg";
-import { wedding, type Lang } from "@/data/wedding";
+import { wedding, type Lang, type Side } from "@/data/wedding";
 import { Particles, SplitText } from "@/components/motion";
 
 /**
@@ -13,7 +13,7 @@ import { Particles, SplitText } from "@/components/motion";
 export function OpeningExperience({
   onComplete,
 }: {
-  onComplete: (lang: Lang, relation: string) => void;
+  onComplete: (lang: Lang, relation: string, side: Side) => void;
 }) {
   const [scene, setScene] = useState(0);
   const [leaving, setLeaving] = useState<number | null>(null);
@@ -51,8 +51,8 @@ export function OpeningExperience({
     go(4);
   };
 
-  const finish = (relation: string) => onComplete(lang, relation);
-  const skip = () => onComplete(lang, "Guest");
+  const finish = (relation: string, side: Side) => onComplete(lang, relation, side);
+  const skip = () => go(6);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-noir text-ivory">
