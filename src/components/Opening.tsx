@@ -108,7 +108,7 @@ function SceneBody({
   onLang: (l: Lang) => void;
   onYes: () => void;
   onNo: () => void;
-  onRelation: (r: string) => void;
+  onRelation: (label: string, side: Side) => void;
 }) {
   switch (scene) {
     case 0:
@@ -349,12 +349,12 @@ function SceneRelation({
       <div className="relative flex w-full max-w-xs flex-col gap-3">
         {wedding.opening.relations.map((r, i) => (
           <button
-            key={r}
-            onClick={() => onRelation(r)}
+            key={r.label}
+            onClick={() => onRelation(r.label, r.side)}
             className="animate-fade-up group flex items-center justify-between rounded-xl border border-ivory/15 bg-ivory/5 px-5 py-3.5 text-left text-sm tracking-[0.12em] text-ivory/85 backdrop-blur-sm transition-all hover:border-gold/60 hover:bg-wine/40 hover:text-ivory active:scale-[0.98]"
             style={{ animationDelay: `${400 + i * 130}ms` }}
           >
-            {r}
+            {r.label}
             <span className="h-1.5 w-1.5 rounded-full bg-gold/60 transition-all group-hover:scale-150 group-hover:bg-gold" />
           </button>
         ))}
