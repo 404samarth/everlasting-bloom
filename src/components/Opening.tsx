@@ -144,6 +144,16 @@ function SceneBody({
       return <SceneDate saidNo={saidNo} onYes={onYes} onNo={onNo} />;
     case 6:
       return <SceneRelation lang={lang} onRelation={onRelation} />;
+    case 7:
+      return <SceneWelcome lang={lang} relation={guest?.relation ?? ""} />;
+    case 8:
+      return (
+        <SceneEnvelope
+          lang={lang}
+          relation={guest?.relation ?? ""}
+          onOpened={onOpened}
+        />
+      );
     default:
       return null;
   }
