@@ -39,6 +39,7 @@ export function OpeningExperience({
     else if (scene === 1) t = window.setTimeout(() => go(2), 3600);
     else if (scene === 2) t = window.setTimeout(() => go(3), 5400);
     else if (scene === 4) t = window.setTimeout(() => go(5), 3000);
+    else if (scene === 7) t = window.setTimeout(() => go(8), 3200);
     return () => window.clearTimeout(t);
   }, [scene, go]);
 
