@@ -464,7 +464,7 @@ function SceneEnvelope({
         >
           {/* the folded card inside */}
           <div
-            className={`absolute inset-x-5 bottom-4 top-3 overflow-hidden rounded-md bg-cream px-4 py-5 text-center shadow-[0_30px_60px_-25px] shadow-noir/80 ${
+            className={`absolute inset-x-5 bottom-4 top-3 z-20 overflow-hidden rounded-md bg-cream px-4 py-5 text-center shadow-[0_30px_60px_-25px] shadow-noir/80 ${
               opening ? "animate-card-rise" : "opacity-0"
             }`}
           >
@@ -510,7 +510,7 @@ function SceneEnvelope({
 
           {/* top flap */}
           <span
-            className={`envelope-flap absolute inset-x-0 top-0 h-1/2 ${
+            className={`envelope-flap absolute inset-x-0 top-0 z-30 h-1/2 ${
               opening ? "animate-flap-open" : ""
             }`}
           >
@@ -520,7 +520,7 @@ function SceneEnvelope({
 
           {/* wax seal */}
           <span
-            className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-noir ring-2 ring-gold/40 ${
+            className={`absolute left-1/2 top-1/2 z-40 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-noir ring-2 ring-gold/40 ${
               opening ? "animate-seal-crack" : "animate-seal-breathe"
             }`}
           >
