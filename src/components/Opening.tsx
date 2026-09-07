@@ -112,18 +112,22 @@ function SceneBody({
   scene,
   lang,
   saidNo,
+  guest,
   onLang,
   onYes,
   onNo,
   onRelation,
+  onOpened,
 }: {
   scene: number;
   lang: Lang;
   saidNo: boolean;
+  guest: { relation: string; side: Side } | null;
   onLang: (l: Lang) => void;
   onYes: () => void;
   onNo: () => void;
   onRelation: (label: string, side: Side) => void;
+  onOpened: () => void;
 }) {
   switch (scene) {
     case 0:
