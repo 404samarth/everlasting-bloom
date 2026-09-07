@@ -55,7 +55,14 @@ export function OpeningExperience({
     go(4);
   };
 
-  const finish = (relation: string, side: Side) => onComplete(lang, relation, side);
+  const pickRelation = (relation: string, side: Side) => {
+    setGuest({ relation, side });
+    go(7);
+  };
+
+  const finish = () => {
+    if (guest) onComplete(lang, guest.relation, guest.side);
+  };
   const skip = () => go(6);
 
   return (
@@ -66,10 +73,12 @@ export function OpeningExperience({
             scene={leaving}
             lang={lang}
             saidNo={saidNo}
+            guest={guest}
             onLang={chooseLang}
             onYes={() => go(6)}
             onNo={() => setSaidNo(true)}
-            onRelation={finish}
+            onRelation={pickRelation}
+            onOpened={finish}
           />
         </div>
       )}
@@ -78,14 +87,16 @@ export function OpeningExperience({
           scene={scene}
           lang={lang}
           saidNo={saidNo}
+          guest={guest}
           onLang={chooseLang}
           onYes={() => go(6)}
           onNo={() => setSaidNo(true)}
-          onRelation={finish}
+          onRelation={pickRelation}
+          onOpened={finish}
         />
       </div>
 
-      {scene >= 1 && (
+      {scene >= 1 && scene < 8 && (
         <button
           onClick={skip}
           className="absolute bottom-5 right-5 z-10 text-[11px] uppercase tracking-[0.3em] text-ivory/40 transition-colors hover:text-ivory/80"
