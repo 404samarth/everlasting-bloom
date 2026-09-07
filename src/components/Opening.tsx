@@ -391,3 +391,170 @@ function SceneRelation({
     </div>
   );
 }
+
+/* Scene 8 — personalised welcome beat */
+function SceneWelcome({
+  lang,
+  relation,
+}: {
+  lang: Lang;
+  relation: string;
+}) {
+  const t = wedding.opening.welcome[lang];
+  return (
+    <div className="relative flex h-full flex-col items-center justify-center gap-6 overflow-hidden px-7 text-center">
+      <div className="animate-light-sweep absolute -inset-1/4 bg-[radial-gradient(ellipse_45%_50%_at_50%_45%,oklch(0.32_0.08_18/0.55),transparent_70%)]" />
+      <div className="animate-glow-pulse absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-3xl" />
+      <div className="vignette absolute inset-0" />
+      <Particles count={10} />
+
+      <p className="animate-fade-up relative text-[11px] font-medium uppercase tracking-[0.4em] text-gold">
+        {relation}
+      </p>
+      <h2 className="font-display relative max-w-md text-3xl font-medium leading-snug text-ivory sm:text-4xl">
+        <SplitText text={t.title} delay={200} step={34} />
+      </h2>
+      <span className="gold-hairline animate-fade-in relative w-24" />
+      <p
+        className="animate-fade-up relative text-xs tracking-[0.22em] text-ivory/55"
+        style={{ animationDelay: "1100ms" }}
+      >
+        {t.fromLine}
+      </p>
+    </div>
+  );
+}
+
+/* Scene 9 — folded invitation envelope opener */
+function SceneEnvelope({
+  lang,
+  relation,
+  onOpened,
+}: {
+  lang: Lang;
+  relation: string;
+  onOpened: () => void;
+}) {
+  const t = wedding.opening.envelope[lang];
+  const [opening, setOpening] = useState(false);
+
+  useEffect(() => {
+    if (!opening) return;
+    const timer = window.setTimeout(onOpened, 2000);
+    return () => window.clearTimeout(timer);
+  }, [opening, onOpened]);
+
+  const open = () => {
+    if (!opening) setOpening(true);
+  };
+
+  return (
+    <div className="relative flex h-full flex-col items-center justify-center gap-10 overflow-hidden px-6">
+      <div className="animate-light-sweep absolute -inset-1/4 bg-[radial-gradient(ellipse_50%_50%_at_50%_45%,oklch(0.34_0.09_16/0.6),transparent_72%)]" />
+      <div className="animate-glow-pulse absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/12 blur-3xl" />
+      <div className="vignette absolute inset-0" />
+      <Particles count={10} />
+
+      <div className="envelope-stage relative">
+        <button
+          onClick={open}
+          aria-label={t.openLabel}
+          className="envelope-3d relative block h-56 w-80 max-w-[86vw] cursor-pointer transition-transform duration-700 active:scale-[0.98] sm:h-64 sm:w-96"
+          style={opening ? { transform: "translateY(-4%)" } : undefined}
+        >
+          {/* the folded card inside */}
+          <div
+            className={`absolute inset-x-5 bottom-4 top-3 overflow-hidden rounded-md bg-cream px-4 py-5 text-center shadow-[0_30px_60px_-25px] shadow-noir/80 ${
+              opening ? "animate-card-rise" : "opacity-0"
+            }`}
+          >
+            <div
+              className={opening ? "animate-card-unfold origin-top" : undefined}
+            >
+              <p className="text-[9px] uppercase tracking-[0.34em] text-gold-deep">
+                {t.unfoldNote}
+              </p>
+              <p className="font-display mt-2 text-2xl font-medium text-wine-deep">
+                {wedding.couple.bride.firstName}
+                <span className="text-gold-deep"> &amp; </span>
+                {wedding.couple.groom.firstName}
+              </p>
+              <span className="gold-hairline mx-auto mt-2 block w-16" />
+              <p className="mt-2 text-[11px] tracking-[0.2em] text-wine">
+                {wedding.dateShort}
+              </p>
+              <p className="mt-1 text-[10px] tracking-[0.14em] text-wine/70">
+                {wedding.venue}
+              </p>
+            </div>
+          </div>
+
+          {/* envelope body */}
+          <span className="absolute inset-0 rounded-lg bg-wine-deep ring-1 ring-gold/35" />
+          <span className="absolute inset-x-0 bottom-0 top-1/3 rounded-b-lg bg-wine shadow-[inset_0_1px_0_0] shadow-gold/25" />
+          {/* corner filigree */}
+          <span className="absolute left-2 top-2 h-5 w-5 rounded-tl border-l border-t border-gold/50" />
+          <span className="absolute right-2 top-2 h-5 w-5 rounded-tr border-r border-t border-gold/50" />
+          <span className="absolute bottom-2 left-2 h-5 w-5 rounded-bl border-b border-l border-gold/50" />
+          <span className="absolute bottom-2 right-2 h-5 w-5 rounded-br border-b border-r border-gold/50" />
+
+          {/* hand-addressed line */}
+          <span className="absolute inset-x-0 bottom-7 px-6 text-center">
+            <span className="block text-[9px] uppercase tracking-[0.32em] text-ivory/50">
+              {t.addressPrefix}
+            </span>
+            <span className="font-display mt-1 block text-lg font-medium italic text-gold">
+              {relation}
+            </span>
+          </span>
+
+          {/* top flap */}
+          <span
+            className={`envelope-flap absolute inset-x-0 top-0 h-1/2 ${
+              opening ? "animate-flap-open" : ""
+            }`}
+          >
+            <span className="block h-full w-full bg-wine-deep [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+            <span className="absolute inset-0 block bg-gold/10 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+          </span>
+
+          {/* wax seal */}
+          <span
+            className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-noir ring-2 ring-gold/40 ${
+              opening ? "animate-seal-crack" : "animate-seal-breathe"
+            }`}
+          >
+            <span className="font-display flex items-center text-sm font-semibold">
+              {wedding.couple.bride.firstName[0]}
+              <Heart className="mx-0.5 h-2.5 w-2.5 fill-current" />
+              {wedding.couple.groom.firstName[0]}
+            </span>
+          </span>
+        </button>
+      </div>
+
+      {!opening ? (
+        <div className="relative flex flex-col items-center gap-3">
+          <button
+            onClick={open}
+            className="animate-fade-up rounded-full bg-gold px-8 py-3.5 text-sm font-medium tracking-[0.16em] text-noir shadow-[0_18px_50px_-18px] shadow-gold/60 transition-all hover:brightness-110 active:scale-95"
+          >
+            {t.openLabel}
+          </button>
+          <span
+            className="animate-scroll-cue text-[10px] uppercase tracking-[0.3em] text-ivory/40"
+            style={{ animationDelay: "600ms" }}
+          >
+            {t.hint}
+          </span>
+        </div>
+      ) : (
+        <div className="h-[52px]" />
+      )}
+
+      {opening && (
+        <div className="animate-light-bloom pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,oklch(0.95_0.06_88)_0%,oklch(0.9_0.08_86)_55%,oklch(0.86_0.09_84)_100%)]" />
+      )}
+    </div>
+  );
+}
