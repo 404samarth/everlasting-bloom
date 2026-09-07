@@ -45,6 +45,34 @@ export const wedding = {
       { label: "Groom Friend", side: "groom" },
       { label: "Groom's Relative", side: "groom" },
     ] as { label: string; side: Side }[],
+
+    /** Personalised welcome beat (after the relationship choice) */
+    welcome: {
+      en: {
+        title: "Aapke liye ek khaas nimantran hai...",
+        fromLine: "Saxena & Raghuwanshi parivaar ki taraf se",
+      },
+      hi: {
+        title: "आपके लिए एक ख़ास निमंत्रण है...",
+        fromLine: "सक्सेना एवं रघुवंशी परिवार की ओर से",
+      },
+    },
+
+    /** Envelope opener */
+    envelope: {
+      en: {
+        addressPrefix: "For our dear",
+        openLabel: "Open your invitation",
+        hint: "Tap the envelope",
+        unfoldNote: "With love, and blessings",
+      },
+      hi: {
+        addressPrefix: "हमारे प्रिय",
+        openLabel: "अपना निमंत्रण खोलें",
+        hint: "लिफ़ाफ़े को स्पर्श करें",
+        unfoldNote: "प्रेम एवं आशीर्वाद सहित",
+      },
+    },
   },
 
   hero: {
