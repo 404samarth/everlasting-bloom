@@ -19,6 +19,9 @@ export function OpeningExperience({
   const [leaving, setLeaving] = useState<number | null>(null);
   const [lang, setLang] = useState<Lang>("en");
   const [saidNo, setSaidNo] = useState(false);
+  const [guest, setGuest] = useState<{ relation: string; side: Side } | null>(
+    null,
+  );
 
   const go = useCallback(
     (next: number) => {
