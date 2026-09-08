@@ -38,12 +38,12 @@ export const wedding = {
     dateQuestion: "Aapko pata hai 18–19 November ko kya hai?",
     noResponse: "Koi baat nahi... ab zindagi bhar yaad rahega 😌",
     relations: [
-      { label: "Bride Family", side: "bride" },
-      { label: "Bride Friend", side: "bride" },
-      { label: "Bride's Relative", side: "bride" },
-      { label: "Groom Family", side: "groom" },
-      { label: "Groom Friend", side: "groom" },
-      { label: "Groom's Relative", side: "groom" },
+      { label: "Gharaati Family", side: "bride" },
+      { label: "Gharaati Friend", side: "bride" },
+      { label: "Gharaati Relative", side: "bride" },
+      { label: "Baraati Family", side: "groom" },
+      { label: "Baraati Friend", side: "groom" },
+      { label: "Baraati Relative", side: "groom" },
     ] as { label: string; side: Side }[],
 
     /** Personalised welcome beat (after the relationship choice) */
