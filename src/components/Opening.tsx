@@ -425,7 +425,7 @@ function SceneWelcome({
   );
 }
 
-/* Scene 9 — folded invitation envelope opener */
+/* Scene 9 — personalised wedding invitation */
 function SceneEnvelope({
   lang,
   relation,
@@ -437,6 +437,8 @@ function SceneEnvelope({
 }) {
   const t = wedding.opening.envelope[lang];
   const [opening, setOpening] = useState(false);
+  const relationName = relation.replace(/^[👰🤵]\s*/u, "");
+  const isFamily = /family/i.test(relationName);
 
   useEffect(() => {
     if (!opening) return;
@@ -449,107 +451,86 @@ function SceneEnvelope({
   };
 
   return (
-    <div className="relative flex h-full flex-col items-center justify-center gap-10 overflow-hidden px-6">
+    <div className="relative flex h-full flex-col items-center justify-center overflow-hidden px-5 py-6">
       <div className="animate-light-sweep absolute -inset-1/4 bg-[radial-gradient(ellipse_50%_50%_at_50%_45%,oklch(0.34_0.09_16/0.6),transparent_72%)]" />
       <div className="animate-glow-pulse absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/12 blur-3xl" />
       <div className="vignette absolute inset-0" />
       <Particles count={10} />
 
-      <div className="envelope-stage relative">
-        <button
-          onClick={open}
-          aria-label={t.openLabel}
-          className="envelope-3d relative block h-56 w-80 max-w-[86vw] cursor-pointer transition-transform duration-700 active:scale-[0.98] sm:h-64 sm:w-96"
-          style={opening ? { transform: "translateY(-4%)" } : undefined}
-        >
-          {/* the folded card inside */}
-          <div
-            className={`absolute inset-x-5 bottom-4 top-3 z-20 overflow-hidden rounded-md bg-cream px-4 py-5 text-center shadow-[0_30px_60px_-25px] shadow-noir/80 ${
-              opening ? "animate-card-rise" : "opacity-0"
-            }`}
+      <article
+        className={`relative flex h-[65svh] max-h-[590px] min-h-[500px] w-full max-w-[340px] flex-col items-center overflow-hidden rounded-sm border border-gold/45 bg-cream px-7 py-6 text-center shadow-[0_36px_90px_-22px] shadow-noir ${opening ? "animate-card-unfold origin-center" : "animate-fade-up"}`}
+      >
+        <span className="pointer-events-none absolute inset-2 border border-gold/25" />
+        <span className="pointer-events-none absolute left-4 top-4 h-10 w-10 rounded-tl border-l border-t border-gold/60" />
+        <span className="pointer-events-none absolute right-4 top-4 h-10 w-10 rounded-tr border-r border-t border-gold/60" />
+        <span className="pointer-events-none absolute bottom-4 left-4 h-10 w-10 rounded-bl border-b border-l border-gold/60" />
+        <span className="pointer-events-none absolute bottom-4 right-4 h-10 w-10 rounded-br border-b border-r border-gold/60" />
+
+        <div className="relative flex h-full w-full flex-col items-center">
+          <svg
+            viewBox="0 0 64 64"
+            aria-label="Shri Ganesh line art"
+            className="h-10 w-10 fill-none stroke-gold-deep stroke-[1.4]"
           >
-            <div
-              className={opening ? "animate-card-unfold origin-top" : undefined}
-            >
-              <p className="text-[9px] uppercase tracking-[0.34em] text-gold-deep">
-                {t.unfoldNote}
-              </p>
-              <p className="font-display mt-2 text-2xl font-medium text-wine-deep">
-                {wedding.couple.bride.firstName}
-                <span className="text-gold-deep"> &amp; </span>
-                {wedding.couple.groom.firstName}
-              </p>
-              <span className="gold-hairline mx-auto mt-2 block w-16" />
-              <p className="mt-2 text-[11px] tracking-[0.2em] text-wine">
-                {wedding.dateShort}
-              </p>
-              <p className="mt-1 text-[10px] tracking-[0.14em] text-wine/70">
-                {wedding.venue}
-              </p>
-            </div>
+            <path d="M32 8c-8 0-14 6-14 13 0 5 3 8 7 10-4 2-7 6-7 11 0 8 7 14 15 14 7 0 13-4 15-10M25 22c0-5 3-9 8-9 6 0 10 5 10 11 0 7-5 10-9 13-4 3-5 8-2 11 2 2 6 1 8-2M19 20c-5-1-9 2-10 7 5 1 9-1 12-5M43 20c5-1 9 2 10 7-5 1-9-1-12-5M26 27h.1M39 27h.1M28 34c3 2 6 2 9 0" />
+          </svg>
+          <p className="mt-1 text-[8px] tracking-[0.18em] text-gold-deep">
+            {t.sacredLine}
+          </p>
+
+          <span className="gold-hairline mt-4 block w-20" />
+          <p className="mt-5 text-[9px] uppercase tracking-[0.28em] text-wine/65">
+            Wedding Invitation
+          </p>
+
+          <h2 className="font-display mt-3 text-[2.15rem] font-medium leading-none text-wine-deep">
+            {wedding.couple.groom.firstName}
+          </h2>
+          <p className="font-display my-1 text-sm italic text-gold-deep">weds</p>
+          <h2 className="font-display text-[2.15rem] font-medium leading-none text-wine-deep">
+            {wedding.couple.bride.firstName}
+          </h2>
+
+          <div className="my-4 flex w-full items-center gap-3">
+            <span className="h-px flex-1 bg-gold/35" />
+            <Heart className="h-3 w-3 fill-gold-deep text-gold-deep" />
+            <span className="h-px flex-1 bg-gold/35" />
           </div>
 
-          {/* envelope body */}
-          <span className="absolute inset-0 rounded-lg bg-wine-deep ring-1 ring-gold/35" />
-          <span className="absolute inset-x-0 bottom-0 top-1/3 rounded-b-lg bg-wine shadow-[inset_0_1px_0_0] shadow-gold/25" />
-          {/* corner filigree */}
-          <span className="absolute left-2 top-2 h-5 w-5 rounded-tl border-l border-t border-gold/50" />
-          <span className="absolute right-2 top-2 h-5 w-5 rounded-tr border-r border-t border-gold/50" />
-          <span className="absolute bottom-2 left-2 h-5 w-5 rounded-bl border-b border-l border-gold/50" />
-          <span className="absolute bottom-2 right-2 h-5 w-5 rounded-br border-b border-r border-gold/50" />
+          <p className="font-display text-xl font-medium text-wine-deep">
+            19 November 2026
+          </p>
+          <p className="mt-1 max-w-[230px] text-[9px] uppercase leading-relaxed tracking-[0.16em] text-wine/60">
+            {wedding.venue}
+          </p>
 
-          {/* hand-addressed line */}
-          <span className="absolute inset-x-0 bottom-7 px-6 text-center">
-            <span className="block text-[9px] uppercase tracking-[0.32em] text-ivory/50">
+          <div className="mt-auto max-w-[245px] text-wine-deep">
+            <p className="font-display text-base italic leading-snug">
               {t.addressPrefix}
-            </span>
-            <span className="font-display mt-1 block text-lg font-medium italic text-gold">
-              {relation}
-            </span>
-          </span>
-
-          {/* top flap */}
-          <span
-            className={`envelope-flap absolute inset-x-0 top-0 z-30 h-1/2 ${
-              opening ? "animate-flap-open" : ""
-            }`}
-          >
-            <span className="block h-full w-full bg-wine-deep [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-            <span className="absolute inset-0 block bg-gold/10 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-          </span>
-
-          {/* wax seal */}
-          <span
-            className={`absolute left-1/2 top-1/2 z-40 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-noir ring-2 ring-gold/40 ${
-              opening ? "animate-seal-crack" : "animate-seal-breathe"
-            }`}
-          >
-            <span className="font-display flex items-center text-sm font-semibold">
-              {wedding.couple.bride.firstName[0]}
-              <Heart className="mx-0.5 h-2.5 w-2.5 fill-current" />
-              {wedding.couple.groom.firstName[0]}
-            </span>
-          </span>
-        </button>
-      </div>
+            </p>
+            <p className="font-display mt-0.5 text-xl font-semibold leading-snug text-wine">
+              {relationName}
+            </p>
+            {isFamily && (
+              <p className="mt-1 text-[9px] uppercase tracking-[0.2em] text-gold-deep">
+                {t.familySuffix}
+              </p>
+            )}
+          </div>
+        </div>
+      </article>
 
       {!opening ? (
-        <div className="relative flex flex-col items-center gap-3">
+        <div className="relative mt-5 flex flex-col items-center">
           <button
             onClick={open}
-            className="animate-fade-up rounded-full bg-gold px-8 py-3.5 text-sm font-medium tracking-[0.16em] text-noir shadow-[0_18px_50px_-18px] shadow-gold/60 transition-all hover:brightness-110 active:scale-95"
+            className="animate-fade-up rounded-full bg-gold px-9 py-3.5 text-sm font-medium tracking-[0.14em] text-noir shadow-[0_18px_50px_-18px] shadow-gold/60 transition-all hover:brightness-110 active:scale-95"
           >
             {t.openLabel}
           </button>
-          <span
-            className="animate-scroll-cue text-[10px] uppercase tracking-[0.3em] text-ivory/40"
-            style={{ animationDelay: "600ms" }}
-          >
-            {t.hint}
-          </span>
         </div>
       ) : (
-        <div className="h-[52px]" />
+        <div className="h-[48px]" />
       )}
 
       {opening && (

@@ -61,16 +61,16 @@ export const wedding = {
     /** Envelope opener */
     envelope: {
       en: {
-        addressPrefix: "For our dear",
-        openLabel: "Open your invitation",
-        hint: "Tap the envelope",
-        unfoldNote: "With love, and blessings",
+        addressPrefix: "To our dearest",
+        familySuffix: "with family",
+        openLabel: "Open Invitation",
+        sacredLine: "॥ श्री गणेशाय नमः ॥",
       },
       hi: {
-        addressPrefix: "हमारे प्रिय",
-        openLabel: "अपना निमंत्रण खोलें",
-        hint: "लिफ़ाफ़े को स्पर्श करें",
-        unfoldNote: "प्रेम एवं आशीर्वाद सहित",
+        addressPrefix: "हमारे अत्यंत प्रिय",
+        familySuffix: "सपरिवार",
+        openLabel: "निमंत्रण खोलें",
+        sacredLine: "॥ श्री गणेशाय नमः ॥",
       },
     },
   },
