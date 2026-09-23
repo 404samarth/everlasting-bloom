@@ -46,7 +46,10 @@ export function OpeningExperience({
   // "No" on the date question → playful line → continue
   useEffect(() => {
     if (!saidNo) return;
-    const t = window.setTimeout(() => go(6), 2600);
+    const t = window.setTimeout(() => {
+      setSaidNo(false);
+      go(6);
+    }, 2600);
     return () => window.clearTimeout(t);
   }, [saidNo, go]);
 

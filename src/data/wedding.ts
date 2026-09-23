@@ -83,32 +83,27 @@ export const wedding = {
   story: {
     title: { en: "Our Story", hi: "हमारी कहानी" },
     intro:
-      "Humari kahaani ek mulaqaat se nahi, ek rishte se shuru hui — aur phir ek phone call ne use pyaar bana diya.",
+      "Kuch kahaaniyaan waqt mein bikhri hoti hain — aur phir kismat unhe jod deti hai. Humari kahaani bhi aise hi shuru hui, ek anjaani si mulaqaat se.",
     moments: [
       {
-        year: "Pehla Kadam",
-        title: "Dono Parivaar Mile",
-        text: "Burhanpur mein baaton ki shuruaat bade-buzurgon se hui. Saxena aur Raghuwanshi parivaar mile, chai chali, aur dono taraf ek hi baat lagi — yeh rishta banna chahiye.",
+        year: "2017",
+        title: "Ek Anjaani Si Mulaqat",
+        text: "Priyanka aur Anand ek hi shaadi mein, Bareilly mein aaye the — woh apne doston ke saath, woh apne rishtedaaron ke saath. Ek hi mehfil mein the, shayad ek-do baar nazar bhi mili… magar baat kabhi na hui. Kismat ne mulaqat toh karwa di thi, par kahaani abhi baaki thi.",
       },
       {
-        year: "Rishta Pakka",
-        title: "Haan Ho Gayi",
-        text: "Arrange marriage — hum ek doosre ko jaante bhi nahi the. Bas parivaar par bharosa tha. Jis din rishta pakka hua, dono ke haath thode kaanp rahe the aur dil bahut zyada.",
+        year: "Jan–Feb 2026",
+        title: "Qismat Ne Phir Milaya",
+        text: "Saalon baad, jab dono zindagi ke humsafar ki talaash mein the, ek-doosre ke baare mein jaana. Baatein shuru hui, ek-doosre ko samajhna shuru kiya… aur phir dil ne keh diya — shayad talaash yahin khatam hoti hai. Faisla hua, aur baat dono parivaaron tak pahunchi.",
       },
       {
-        year: "Pehla Call",
-        title: "Hello... Namaste",
-        text: "Pehla phone call sirf paanch minute ka tha, aur uss mein bhi aadha waqt chup rahe. Agle din phir call kiya... aur woh paanch minute do ghante ban gaye.",
+        year: "21 Feb 2026",
+        title: "Rishte Ne Naam Paaya",
+        text: "21 February ko Burhanpur mein pehli baar aamne-saamne mulaqat hui. Baatein hui, parivaar mile, aur Roka ki rasam ne is naye rishte par mohabbat ki mohar laga di. Usi din, parivaaron ki duaon ke saath, 19 November 2026 ka din bhi tay ho gaya.",
       },
       {
-        year: "Video Calls",
-        title: "Screen Ke Do Taraf",
-        text: "Ab tak humari saari mulaqaatein calls aur video calls par hui hain. Khaana, kaam, gaane, dar, sapne — sab share kiya. Ajeeb baat hai, doori mein hi ek dosti ban gayi.",
-      },
-      {
-        year: "18–19 Nov 2026",
-        title: "Ab Aamne-Saamne",
-        text: "Ab woh din aa raha hai jab screen hat jaayegi. Burhanpur mein, apne logon ke beech, dulha-dulhan ban kar milenge — aur aapka aashirvaad is kahaani ka pehla page hoga.",
+        year: "2026 — Aaj",
+        title: "Baatein Jo Dil Ke Qareeb Laaye",
+        text: "Roka ke baad se baaton ka silsila yun hi chalta raha — late-night calls, shaadi ki taiyaariyan, parivaar, riwaaz, sapne aur ek-doosre ki chhoti-chhoti pasand. Har baat ke saath ek-doosre ko thoda aur jaana, aur thoda aur apna banaya.",
       },
     ],
   },
