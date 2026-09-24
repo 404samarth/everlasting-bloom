@@ -112,8 +112,8 @@ function Index() {
             <Events lang={lang} />
             <WeddingCard lang={lang} />
             <Invitation />
-            <Blessings lang={lang} side={side} />
-            <Memories lang={lang} side={side} />
+            <Blessings lang={lang} />
+            <Memories lang={lang} />
             <InstagramSection lang={lang} />
             <Footer lang={lang} />
           </main>

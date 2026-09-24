@@ -21,7 +21,7 @@ export type Database = {
           message: string
           name: string
           relation: string | null
-          side: string
+          side: string | null
         }
         Insert: {
           created_at?: string
@@ -29,7 +29,7 @@ export type Database = {
           message: string
           name: string
           relation?: string | null
-          side: string
+          side?: string | null
         }
         Update: {
           created_at?: string
@@ -37,7 +37,7 @@ export type Database = {
           message?: string
           name?: string
           relation?: string | null
-          side?: string
+          side?: string | null
         }
         Relationships: []
       }
@@ -47,21 +47,21 @@ export type Database = {
           created_at: string
           id: string
           image_path: string
-          side: string
+          side: string | null
         }
         Insert: {
           caption?: string | null
           created_at?: string
           id?: string
           image_path: string
-          side: string
+          side?: string | null
         }
         Update: {
           caption?: string | null
           created_at?: string
           id?: string
           image_path?: string
-          side?: string
+          side?: string | null
         }
         Relationships: []
       }

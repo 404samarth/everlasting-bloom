@@ -1,35 +1,33 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Heart, Send } from "lucide-react";
-import { wedding, ui, type Lang, type Side } from "@/data/wedding";
+import { ui, type Lang } from "@/data/wedding";
 import { Reveal, SectionLabel } from "@/components/motion";
-import { supabase } from "@/integrations/supabase/client";
 
 interface Blessing {
   id?: string;
   name: string;
   relation: string | null;
   message: string;
-  side?: Side;
 }
 
-export function Blessings({ lang, side }: { lang: Lang; side: Side }) {
+export function Blessings({ lang }: { lang: Lang }) {
   const t = ui[lang];
   const [dbBlessings, setDbBlessings] = useState<Blessing[]>([]);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    supabase
-      .from("blessings")
-      .select("id, name, relation, message, created_at")
-      .eq("side", side)
-      .order("created_at", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) console.error("[blessings fetch]", error.message);
-        if (data) setDbBlessings(data as Blessing[]);
-      });
-  }, [side]);
+    import("@/integrations/supabase/client").then(({ supabase }) => {
+      supabase
+        .from("blessings")
+        .select("id, name, relation, message, created_at")
+        .order("created_at", { ascending: false })
+        .then(({ data, error }) => {
+          if (error) console.error("[blessings fetch]", error.message);
+          if (data) setDbBlessings(data as Blessing[]);
+        });
+    });
+  }, []);
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,32 +39,25 @@ export function Blessings({ lang, side }: { lang: Lang; side: Side }) {
     };
     if (!b.name || !b.message) return;
 
-    // Optimistic update
     setDbBlessings((prev) => [b, ...prev]);
     e.currentTarget.reset();
     setSent(true);
     window.setTimeout(() => setSent(false), 4000);
 
     setLoading(true);
+    const { supabase } = await import("@/integrations/supabase/client");
     const { data, error } = await supabase
       .from("blessings")
-      .insert({ name: b.name, relation: b.relation, message: b.message, side })
+      .insert({ name: b.name, relation: b.relation, message: b.message })
       .select("id, name, relation, message, created_at")
       .single();
     setLoading(false);
 
-    if (error) {
-      console.error("[blessings insert]", error.message);
-    }
-    if (data) {
-      setDbBlessings((prev) => [data as Blessing, ...prev.slice(1)]);
-    }
+    if (error) console.error("[blessings insert]", error.message);
+    if (data) setDbBlessings((prev) => [data as Blessing, ...prev.slice(1)]);
   };
 
-  const all = [
-    ...dbBlessings,
-    ...wedding.testimonials.filter((t) => t.side === side),
-  ];
+  const all = dbBlessings;
 
   return (
     <section className="bg-cream px-6 py-24 sm:py-32">
@@ -82,6 +73,11 @@ export function Blessings({ lang, side }: { lang: Lang; side: Side }) {
 
         {/* Cards */}
         <div className="mt-14 columns-1 gap-5 sm:columns-2">
+          {all.length === 0 && (
+            <p className="text-center text-sm italic text-muted-foreground py-8">
+              Be the first to leave a blessing ❤️
+            </p>
+          )}
           {all.map((b, i) => (
             <div key={`${b.name}-${i}`} className="mb-5 break-inside-avoid">
               <Reveal delay={Math.min(i, 4) * 70}>
