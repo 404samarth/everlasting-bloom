@@ -35,13 +35,8 @@ function createSupabaseClient() {
   const SUPABASE_PUBLISHABLE_KEY = import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || process.env['SUPABASE_PUBLISHABLE_KEY'];
 
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    console.warn('[Supabase] Environment variables not available yet — returning no-op client.');
+    return null as unknown as ReturnType<typeof createSupabaseClient>;
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
@@ -71,9 +66,9 @@ function ssrNoOp(): unknown {
 // import { supabase } from "@/integrations/supabase/client";
 export const supabase = new Proxy({} as ReturnType<typeof createSupabaseClient>, {
   get(_, prop, receiver) {
-    // Never initialise during SSR — env vars may not be available server-side
     if (typeof window === 'undefined') return ssrNoOp();
     if (!_supabase) _supabase = createSupabaseClient();
+    if (_supabase === null) return ssrNoOp();
     return Reflect.get(_supabase, prop, receiver);
   },
 });

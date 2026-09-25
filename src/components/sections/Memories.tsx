@@ -33,6 +33,7 @@ export function Memories({ lang }: { lang: Lang }) {
   const t = ui[lang];
   const [photos, setPhotos] = useState<Memory[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,6 +60,7 @@ export function Memories({ lang }: { lang: Lang }) {
   const onFiles = async (files: FileList | null) => {
     if (!files?.length) return;
     setUploading(true);
+    setUploadError(null);
     const sb = await getSupabase();
 
     for (const file of Array.from(files).slice(0, 6)) {
@@ -70,7 +72,11 @@ export function Memories({ lang }: { lang: Lang }) {
         .from("memories")
         .upload(path, file, { cacheControl: "3600", upsert: false });
 
-      if (upErr) { console.error("[memory upload]", upErr.message); continue; }
+      if (upErr) {
+        console.error("[memory upload]", upErr.message);
+        setUploadError("Upload failed. Please try again.");
+        continue;
+      }
 
       const { data, error } = await sb
         .from("memories")
@@ -78,7 +84,11 @@ export function Memories({ lang }: { lang: Lang }) {
         .select("id, image_path, caption")
         .single();
 
-      if (error) console.error("[memory insert]", error.message);
+      if (error) {
+        console.error("[memory insert]", error.message);
+        setUploadError("Could not save photo. Please try again.");
+        continue;
+      }
       if (data) {
         const withUrl = (await withUrls([data as Memory]))[0];
         if (withUrl) setPhotos((prev) => [withUrl, ...prev]);
@@ -86,6 +96,7 @@ export function Memories({ lang }: { lang: Lang }) {
     }
 
     setUploading(false);
+    if (uploadError) window.setTimeout(() => setUploadError(null), 5000);
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -164,6 +175,10 @@ export function Memories({ lang }: { lang: Lang }) {
             {uploading ? t.uploading : t.uploadPhoto}
           </button>
         </Reveal>
+
+        {uploadError && (
+          <p className="mt-4 text-sm italic text-red-500">{uploadError}</p>
+        )}
 
         {photos.length === 0 && !uploading && (
           <p className="mt-12 text-sm italic text-muted-foreground">

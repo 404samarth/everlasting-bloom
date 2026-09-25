@@ -15,6 +15,7 @@ export function Blessings({ lang }: { lang: Lang }) {
   const [dbBlessings, setDbBlessings] = useState<Blessing[]>([]);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     import("@/integrations/supabase/client").then(({ supabase }) => {
@@ -53,8 +54,14 @@ export function Blessings({ lang }: { lang: Lang }) {
       .single();
     setLoading(false);
 
-    if (error) console.error("[blessings insert]", error.message);
-    if (data) setDbBlessings((prev) => [data as Blessing, ...prev.slice(1)]);
+    if (error) {
+      console.error("[blessings insert]", error.message);
+      setErrorMsg(t.blessingError);
+      setDbBlessings((prev) => prev.slice(1));
+      window.setTimeout(() => setErrorMsg(null), 5000);
+    } else {
+      if (data) setDbBlessings((prev) => [data as Blessing, ...prev.slice(1)]);
+    }
   };
 
   const all = dbBlessings;
@@ -138,9 +145,14 @@ export function Blessings({ lang }: { lang: Lang }) {
               >
                 <Send className="h-4 w-4" /> {t.sendBlessing}
               </button>
-              {sent && (
+              {sent && !errorMsg && (
                 <span className="animate-fade-up font-display text-base italic text-gold">
                   {t.blessingThanks}
+                </span>
+              )}
+              {errorMsg && (
+                <span className="animate-fade-up font-display text-base italic text-red-300">
+                  {errorMsg}
                 </span>
               )}
             </div>
