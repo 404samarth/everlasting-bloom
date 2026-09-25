@@ -62,6 +62,7 @@ export function Memories({ lang }: { lang: Lang }) {
     setUploading(true);
     setUploadError(null);
     const sb = await getSupabase();
+    let hadError = false;
 
     for (const file of Array.from(files).slice(0, 6)) {
       if (!file.type.startsWith("image/")) continue;
@@ -75,6 +76,7 @@ export function Memories({ lang }: { lang: Lang }) {
       if (upErr) {
         console.error("[memory upload]", upErr.message);
         setUploadError("Upload failed. Please try again.");
+        hadError = true;
         continue;
       }
 
@@ -87,6 +89,7 @@ export function Memories({ lang }: { lang: Lang }) {
       if (error) {
         console.error("[memory insert]", error.message);
         setUploadError("Could not save photo. Please try again.");
+        hadError = true;
         continue;
       }
       if (data) {
@@ -96,7 +99,7 @@ export function Memories({ lang }: { lang: Lang }) {
     }
 
     setUploading(false);
-    if (uploadError) window.setTimeout(() => setUploadError(null), 5000);
+    if (hadError) window.setTimeout(() => setUploadError(null), 5000);
     if (inputRef.current) inputRef.current.value = "";
   };
 
